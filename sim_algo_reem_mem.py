@@ -68,8 +68,6 @@ if __name__ == '__main__':
                 ('.stack', 0xC0, 0x22),
                 ]
 
-
-
     results = procesar(segmentos, reqs, marcos_libres)
     print_results(results)
 
