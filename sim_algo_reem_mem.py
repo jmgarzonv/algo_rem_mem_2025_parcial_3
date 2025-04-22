@@ -9,10 +9,10 @@
 #             ]
 
 def procesar(segmentos, reqs, marcos_libres):
-    page_table = {}  # página lógica -> marco físico
-    lru_tracker = {}  # página lógica -> timestamp de último uso
+    page_table = {}
+    lru_tracker = {}
     results = []
-    current_time = 0  # contador de accesos
+    current_time = 0
 
     def direccion_valida(req):
         for nombre, base, limite in segmentos:
