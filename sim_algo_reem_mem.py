@@ -31,13 +31,13 @@ def procesar(segmentos, reqs, marcos_libres):
         if pagina_logica in page_table:
             marco = page_table[pagina_logica]
             lru_tracker[pagina_logica] = current_time
-            results.append((req, (marco << 4) | offset, "Marco ya estaba asignado"))
+            results.append((req, (marco * 16) + offset, "Marco ya estaba asignado"))
         else:
             if marcos_libres:
-                marco = marcos_libres.pop()
+                marco = marcos_libres.pop(0)
                 page_table[pagina_logica] = marco
                 lru_tracker[pagina_logica] = current_time
-                results.append((req, (marco << 4) | offset, "Marco libre asignado"))
+                results.append((req, (marco * 16) + offset, "Marco libre asignado"))
             else:
                 pagina_reemplazo = min(lru_tracker, key=lru_tracker.get)
                 marco = page_table[pagina_reemplazo]
@@ -47,7 +47,7 @@ def procesar(segmentos, reqs, marcos_libres):
 
                 page_table[pagina_logica] = marco
                 lru_tracker[pagina_logica] = current_time
-                results.append((req, (marco << 4) | offset, "Marco asignado"))
+                results.append((req, (marco * 16) + offset, "Marco asignado"))
 
         current_time += 1
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 ('.data', 0x40, 0x28),
                 ('.heap', 0x80, 0x1F),
                 ('.stack', 0xC0, 0x22),
-                ]
+            ]
 
     results = procesar(segmentos, reqs, marcos_libres)
     print_results(results)
